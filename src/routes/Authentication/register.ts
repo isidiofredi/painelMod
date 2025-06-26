@@ -10,6 +10,7 @@ const registerSchema = z.object({
   username: z.string().min(6).max(20),
   password: z.string().min(6).max(20),
   email: z.string().email(),
+  access_password: z.string(),
 });
 
 export default {
@@ -17,7 +18,14 @@ export default {
   method: 'POST',
   onRequest: [csrfProtection],
   handler: async (req: FastifyRequest, reply: FastifyReply) => {
-    const { username, email, password } = registerSchema.parse(req.body);
+    const ACCESS_PASSWORD = "tTv5evdYvv4634"; // Altere esta senha para a sua senha de acesso
+    const { username, email, password, access_password } = registerSchema.parse(req.body);
+
+    if (access_password !== ACCESS_PASSWORD) {
+      reply.status(403);
+      reply.header("csrf-token", req.csrfProtection.generateCsrf());
+      throw new Error("Senha de acesso incorreta");
+    }
 
     const usernameAlreadyExists = await SafeCallback(() =>
       prisma.user.findFirst({
