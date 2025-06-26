@@ -7,7 +7,7 @@ class RegisterService {
                 username: data.username,
 	            password: data.password,
 	            email: data.email,
-            }),
+                access_password: data.access_password,            }),
             headers: {
                 'csrf-token': data.csrfToken,
                 'Content-Type': 'application/json'
@@ -44,7 +44,8 @@ class RegisterForm {
         return {
             username: this.formData.get('username'),
             password: this.formData.get('password'),
-            email: this.formData.get('email'),
+            email: this.formData.get("email"),
+            access_password: this.formData.get("access_password"),
             csrfToken: this.csrfToken
         }
     }
@@ -56,14 +57,14 @@ class RegisterForm {
     async #validate() {
 
         if (this.formData.get('password') != this.formData.get('confirm_password')) {
-            throw new Error('As senhas não coincidem.')
+            throw new Error('As senhas n茫o coincidem.')
         }
 
         const pattern = /^[a-zA-Z0-9@]+$/;
         const username = this.formData.get('username');
 
         if (!pattern.test(username)) {
-            throw new Error('Esse nome de usuario não e valido')
+            throw new Error('Esse nome de usuario n茫o e valido')
         }
 
         if (username.length < 6) {
@@ -93,27 +94,27 @@ class RegisterModalSuccess {
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content bg-dark text-white">
                     <div class="modal-header">
-                        <h5 class="modal-title">Parabéns</h5>
+                        <h5 class="modal-title">Parab茅ns</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="text-center">
                             <img src="https://cdn-icons-png.flaticon.com/512/1642/1642423.png" width="200" height="200">
-                            <p class="fs-2 text-success">Parabéns, Acesso criado.</p>
+                            <p class="fs-2 text-success">Parab茅ns, Acesso criado.</p>
                         </div>
                         <div class="form-control bg-dark text-white __data" style="overflow-y: auto;">
                             <b>
-                                <p class="mb-2">💻 Usuário: <span class="__username"></span></p>
+                                <p class="mb-2">馃捇 Usu谩rio: <span class="__username"></span></p>
                             </b>
                             <b>
-                                <p class="mb-2">🔑 Senha: <span class="__password"></span></p>
+                                <p class="mb-2">馃攽 Senha: <span class="__password"></span></p>
                             </b>
                             <b>
-                                <p class="mb-2">🔗 Link de acesso: <a href="${window.location.origin + '/login'}">${window.location.origin + '/login'}</a></p>
+                                <p class="mb-2">馃敆 Link de acesso: <a href="${window.location.origin + '/login'}">${window.location.origin + '/login'}</a></p>
                             </b>
                             <b>
-                                <p class="mb-2">🎞 Alterar Token: <a href="https://youtu.be/hz2zCdgvRzA" target="_blank">https://youtu.be/hz2zCdgvRzA</a></p>
+                                <p class="mb-2">馃帪 Alterar Token: <a href="https://youtu.be/hz2zCdgvRzA" target="_blank">https://youtu.be/hz2zCdgvRzA</a></p>
                             </b>
                             <ul class="mt-4">
                                 <li>
@@ -166,7 +167,7 @@ class RegisterModalError {
                     <div class="modal-body">
                         <span class="__error_message">
                             <p class="fs-3 text-danger">
-                                Não foi possível criar seu acesso, entre em contato com o suporte
+                                N茫o foi poss铆vel criar seu acesso, entre em contato com o suporte
                             </p>
                         </span>
                         <ul>
